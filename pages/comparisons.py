@@ -84,7 +84,7 @@ st.markdown(f"""
     }}
     </style>
 
-    <a href="/app" target="_self" class="home-icon">
+    <a href="https://pokemon-chatbot-kpnpr9q6i6asyoc7qsfksk.streamlit.app/" target="_self" class="home-icon">
         <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
     </a>
 """, unsafe_allow_html=True)
