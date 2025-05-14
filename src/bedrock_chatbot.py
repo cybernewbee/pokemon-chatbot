@@ -22,7 +22,7 @@ def chat_with_claude(prompt, context=""):
                 "content": f"Context:\n{context}\n\nQuestion:\n{prompt}"
             }
         ],
-        "max_tokens": 400,
+        "max_tokens": 800,
         "temperature": 0.7,
         "top_p": 1.0
     }
