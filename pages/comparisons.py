@@ -256,11 +256,11 @@ with tab2:
 
     # Render result if team data exists
     if st.session_state.team_data:
-        st.caption(f"🔍 Interpreted Team: {', '.join(st.session_state.team_names)}")
-        st.subheader("📊 Rule-Based Team Analysis")
+        st.caption(f"Interpreted Team: {', '.join(st.session_state.team_names)}")
+        st.subheader("Rule-Based Team Analysis")
         st.markdown(get_team_synergy(st.session_state.team_data))
 
-        st.subheader("🤖 Natural Language Summary (LLM)")
+        st.subheader("Natural Language Summary (LLM)")
         st.markdown(llm_team_synergy_summary(st.session_state.team_data))
 
 # At the bottom of your comparison or walkthrough page:
