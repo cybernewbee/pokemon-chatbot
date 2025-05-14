@@ -16,3 +16,12 @@ orjson
 
 # Development & testing
 pprintpp  # optional: for better pretty-printing in testing
+streamlit
+requests
+langchain
+langdetect
+matplotlib
+pandas
+numpy
+boto3
+python-dotenv
