@@ -260,7 +260,7 @@ with tab2:
         st.subheader("Rule-Based Team Analysis")
         st.markdown(get_team_synergy(st.session_state.team_data))
 
-        st.subheader("Natural Language Summary (LLM)")
+        st.subheader("Team Strength Summary")
         st.markdown(llm_team_synergy_summary(st.session_state.team_data))
 
 # At the bottom of your comparison or walkthrough page:

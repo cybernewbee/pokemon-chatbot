@@ -147,7 +147,7 @@ with st.container():
                 st.info("No walkthroughs found.")
 
             if walkthrough_article:
-                st.subheader("Walkthrough Guide (Generated)")
+                st.subheader("Walkthrough Guide")
                 st.markdown(walkthrough_article)
 
             st.markdown("---")
