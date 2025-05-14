@@ -1,0 +1,18 @@
+# Core
+streamlit
+requests
+python-dotenv
+
+# AWS + Bedrock (Claude)
+boto3
+
+# LangChain (optional: used for prompts or future expansions)
+langchain
+langchain-community
+langchain-core
+
+# For structured output parsing (only if you use LangChain parsing)
+orjson
+
+# Development & testing
+pprintpp  # optional: for better pretty-printing in testing
