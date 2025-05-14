@@ -1,6 +1,4 @@
 import requests
-
-
 from src.config import get_env_var
 
 GOOGLE_API_KEY = get_env_var("GOOGLE_API_KEY")
@@ -12,7 +10,7 @@ def search_walkthrough(game_name: str, topic: str, num_results: int = 5) -> list
     Search Google for game walkthroughs using Programmable Search Engine.
     Returns a list of dictionaries with title, snippet, and link.
     """
-    if not GOOGLE_API_KEY or not GOOGLE_CX:
+    if not GOOGLE_API_KEY or not CX_ID:
         raise ValueError("Missing GOOGLE_API_KEY or GOOGLE_CSE_ID in environment variables.")
 
     query = f"{game_name} {topic} site:gamefaqs.gamespot.com OR site:ign.com OR site:bulbapedia.bulbagarden.net"
