@@ -112,10 +112,14 @@ st.markdown("""
     <div style="text-align: center; font-size: 0.9rem; color: gray;">
         © 2025 cybernewbee. All rights reserved. <br>
         Powered by 
-        <a href="https://streamlit.io" target="_blank">Streamlit</a>,
-        <a href="https://platform.openai.com" target="_blank">OpenAI</a>,
-        <a href="https://aws.amazon.com/bedrock/" target="_blank">AWS Bedrock</a>,
+        <a href="https://streamlit.io" target="_blank">Streamlit</a>, 
+        <a href="https://platform.openai.com" target="_blank">OpenAI</a>, 
+        <a href="https://aws.amazon.com/bedrock/" target="_blank">AWS Bedrock</a>, 
         and <a href="https://pokeapi.co" target="_blank">PokéAPI</a>. <br>
+        Pokémon is © <a href="https://www.nintendo.com/" target="_blank">Nintendo</a>, 
+        <a href="https://www.gamefreak.co.jp/" target="_blank">Game Freak</a>, 
+        and <a href="https://www.creatures.co.jp/" target="_blank">Creatures Inc.</a>. <br>
         <a href="https://github.com/cybernewbee/pokemon-chatbot" target="_blank">View source on GitHub</a>
     </div>
 """, unsafe_allow_html=True)
+
