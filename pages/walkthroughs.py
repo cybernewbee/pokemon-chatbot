@@ -66,32 +66,32 @@ st.markdown(centered_image_html("assets/walkthrough_title.png", width=700), unsa
 
 home_icon_b64 = image_to_base64("assets/back_to_home.png")
 compare_icon_b64 = image_to_base64("assets/to_compare.png")
-# home buttom
+
 st.markdown(f"""
     <style>
-    .scroll-top-bar {{
+    .page-nav {{
         display: flex;
         justify-content: space-between;
-        align-items: center;
         margin-top: 0px;
-        padding: 0 40px;
+        margin-bottom: 2rem;
     }}
-    .scroll-top-bar img {{
+    .page-nav img {{
         width: 150px;
         height: auto;
         cursor: pointer;
     }}
     </style>
 
-    <div class="scroll-top-bar">
+    <div class="page-nav">
         <a href="/" target="_self">
             <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
         </a>
-        <a href="/comparisons" target="_self">
-            <img src="data:image/png;base64,{compare_icon_b64}" alt="Compare">
+        <a href="/walkthroughs" target="_self">
+            <img src="data:image/png;base64,{compare_icon_b64}" alt="Walkthrough">
         </a>
     </div>
 """, unsafe_allow_html=True)
+
 
 
 

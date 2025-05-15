@@ -80,21 +80,20 @@ walkthrough_icon_b64 = image_to_base64("assets/to_walkthrough.png")
 
 st.markdown(f"""
     <style>
-    .top-button-bar {{
+    .page-nav {{
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        margin-top: 40px;
-        padding: 0 50px;
+        margin-top: 0px;
+        margin-bottom: 2rem;
     }}
-    .top-button-bar img {{
+    .page-nav img {{
         width: 150px;
         height: auto;
         cursor: pointer;
     }}
     </style>
 
-    <div class="top-button-bar">
+    <div class="page-nav">
         <a href="/" target="_self">
             <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
         </a>
@@ -103,6 +102,7 @@ st.markdown(f"""
         </a>
     </div>
 """, unsafe_allow_html=True)
+
 
 # Two taps
 tab1, tab2 = st.tabs(["Compare Two Pokémon", "Team Analyzer"])
