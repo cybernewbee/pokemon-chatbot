@@ -64,36 +64,32 @@ st.markdown(f"""
 # Render pixel-art title, centered
 st.markdown(centered_image_html("assets/walkthrough_title.png", width=700), unsafe_allow_html=True)
 
-home_icon_b64 = image_to_base64("assets/back_to_home.png")
+img = Image.open("assets/back_to_home.png")
+col = st.columns([1, 8])[0]  # place on the left side
 
-# Render the image button with a CSS class that targets its actual HTML structure
-st.markdown(f"""
+with col:
+    st.image(img, width=150)  # display image
+
+    if st.button(" ", key="home_button"):
+        st.query_params.clear()
+        st.rerun()
+
+# Hide button styling completely
+st.markdown("""
     <style>
-    .home-btn {{
-        position: fixed;
+    button[kind="secondary"] {
+        background-color: transparent !important;
+        border: none !important;
+        height: 0px !important;
+        padding: 0 !important;
+        margin-top: -150px !important;
+        position: absolute;
         top: 80px;
         left: 50px;
         width: 150px;
-        height: 150px;
-        background: url("data:image/png;base64,{home_icon_b64}") no-repeat center center;
-        background-size: contain;
-        border: none;
-        cursor: pointer;
-        z-index: 9999;
-        padding: 0;
-    }}
+        z-index: 1000;
+    }
     </style>
-    <script>
-    const existing = window.parent.document.querySelector('.home-btn');
-    if (!existing) {{
-        const btn = window.parent.document.createElement('button');
-        btn.className = 'home-btn';
-        btn.onclick = () => {{
-            window.location.href = "/";
-        }};
-        window.parent.document.body.appendChild(btn);
-    }}
-    </script>
 """, unsafe_allow_html=True)
 
 # Compare button
