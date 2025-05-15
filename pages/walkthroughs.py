@@ -65,7 +65,10 @@ st.markdown(centered_image_html("assets/walkthrough_title.png", width=700), unsa
 
 home_icon_b64 = image_to_base64("assets/back_to_home.png")
 
-# home buttom
+# Invisible Streamlit button over the image
+clicked = st.button(" ", key="home_btn")
+
+# Render fixed-position base64 image and invisible button area
 st.markdown(f"""
     <style>
     .home-icon {{
@@ -73,19 +76,25 @@ st.markdown(f"""
         top: 80px;
         left: 50px;
         z-index: 9999;
-    }}
-
-    .home-icon img {{
-        width: 150px;
-        height: auto;
+        background: none;
+        border: none;
+        padding: 0;
+        margin: 0;
         cursor: pointer;
+    }}
+    button[kind="secondary"] {{
+        display: none;
     }}
     </style>
 
-    <a href="https://pokemon-chatbot-kpnpr9q6i6asyoc7qsfksk.streamlit.app/" target="_self" class="home-icon">
-        <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
-    </a>
+    <div class="home-icon">
+        <img src="data:image/png;base64,{home_icon_b64}" width="150" />
+    </div>
 """, unsafe_allow_html=True)
+
+if clicked:
+    st.experimental_set_query_params()
+    st.experimental_rerun()
 
 # Compare button
 compare_icon_b64 = image_to_base64("assets/to_compare.png")
