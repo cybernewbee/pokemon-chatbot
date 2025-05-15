@@ -73,7 +73,7 @@ st.markdown(f"""
         display: flex;
         justify-content: space-between;
         margin-top: 0px;
-        margin-bottom: 2rem;
+        margin-bottom: 6rem;
     }}
     .page-nav img {{
         width: 150px;
