@@ -67,27 +67,30 @@ st.markdown(f"""
 # Render pixel-art title, centered
 st.markdown(centered_image_html("assets/comparison_title.png", width=700), unsafe_allow_html=True)
 
-back_to_home_icon_b64 = image_to_base64("assets/back_to_home.png")
+home_icon_b64 = image_to_base64("assets/back_to_home.png")
+
+# home buttom
 st.markdown(f"""
     <style>
-    .compare-icon {{
+    .home-icon {{
         position: fixed;
         top: 80px;
         left: 50px;
         z-index: 9999;
     }}
 
-    .compare-icon img {{
+    .home-icon img {{
         width: 150px;
         height: auto;
         cursor: pointer;
     }}
     </style>
 
-    <a href="/" target="_self" class="compare-icon">
-        <img src="data:image/png;base64,{back_to_home_icon_b64}" alt="Compare">
+    <a href="/" target="_self" class="home-icon">
+        <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
     </a>
 """, unsafe_allow_html=True)
+
 # Walkthrough button
 walkthrough_icon_b64 = image_to_base64("assets/to_walkthrough.png")
 st.markdown(f"""
