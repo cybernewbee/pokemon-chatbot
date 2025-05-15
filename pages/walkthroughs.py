@@ -66,11 +66,10 @@ st.markdown(centered_image_html("assets/walkthrough_title.png", width=700), unsa
 
 home_icon_b64 = image_to_base64("assets/back_to_home.png")
 
-clicked = st.button("home", key="home_btn")
-
+# Render the image button with a CSS class that targets its actual HTML structure
 st.markdown(f"""
     <style>
-    button[title="home"] {{
+    .home-btn {{
         position: fixed;
         top: 80px;
         left: 50px;
@@ -81,17 +80,21 @@ st.markdown(f"""
         border: none;
         cursor: pointer;
         z-index: 9999;
-        text-indent: -9999px;
+        padding: 0;
     }}
     </style>
+    <script>
+    const existing = window.parent.document.querySelector('.home-btn');
+    if (!existing) {{
+        const btn = window.parent.document.createElement('button');
+        btn.className = 'home-btn';
+        btn.onclick = () => {{
+            window.location.href = "/";
+        }};
+        window.parent.document.body.appendChild(btn);
+    }}
+    </script>
 """, unsafe_allow_html=True)
-
-if clicked:
-    st.query_params.clear()
-    try:
-        st.rerun()
-    except:
-        pass
 
 # Compare button
 compare_icon_b64 = image_to_base64("assets/to_compare.png")
