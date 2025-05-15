@@ -77,36 +77,29 @@ home_icon_b64 = image_to_base64("assets/back_to_home.png")
 walkthrough_icon_b64 = image_to_base64("assets/to_walkthrough.png")
 st.markdown(f"""
     <style>
-    .nav-button-wrapper {{
-        position: relative;
-        height: 0;
+    .page-nav {{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0px;
+        margin-bottom: 2rem;
     }}
-
-    .home-icon, .compare-icon {{
-        position: absolute;
-        top: 10px;
+    .page-nav img {{
         width: 150px;
+        height: auto;
         cursor: pointer;
-    }}
-
-    .home-icon {{
-        left: 10px;
-    }}
-
-    .compare-icon {{
-        right: 10px;
     }}
     </style>
 
-    <div class="nav-button-wrapper">
-        <a href="/" target="_self" class="home-icon">
+    <div class="page-nav">
+        <a href="/" target="_self">
             <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
         </a>
-        <a href="/walkthroughs" target="_self" class="compare-icon">
-            <img src="data:image/png;base64,{walkthrough_icon_b64}" alt="Compare">
+        <a href="/walkthroughs" target="_self">
+            <img src="data:image/png;base64,{walkthrough_icon_b64}" alt="Walkthrough">
         </a>
     </div>
 """, unsafe_allow_html=True)
+
 st.markdown(centered_image_html("assets/comparison_title.png", width=700), unsafe_allow_html=True)
 # Two taps
 tab1, tab2 = st.tabs(["Compare Two Pokémon", "Team Analyzer"])
