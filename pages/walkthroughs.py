@@ -3,6 +3,7 @@ from src.answer_pipeline import answer_query
 from utils import centered_image_html
 from utils import image_to_base64
 import streamlit.components.v1 as components
+from PIL import Image
 
 st.set_page_config(
     page_title="Walkthrough Assistant",  # 👈 THIS name defines the URL
@@ -65,33 +66,29 @@ st.markdown(centered_image_html("assets/walkthrough_title.png", width=700), unsa
 
 home_icon_b64 = image_to_base64("assets/back_to_home.png")
 
-# Invisible Streamlit button over the image
-clicked = st.button(" ", key="home_btn")
+# Render an actual Streamlit button named 'home'
+clicked = st.button("home", key="home_btn")
 
-# Render fixed-position base64 image and invisible button area
+# Style that button to use the image as its background
 st.markdown(f"""
     <style>
-    .home-icon {{
+    button[title="home"] {{
         position: fixed;
         top: 80px;
         left: 50px;
-        z-index: 9999;
-        background: none;
+        width: 150px;
+        height: 150px;
+        background: url("data:image/png;base64,{home_icon_b64}") no-repeat center center;
+        background-size: contain;
         border: none;
-        padding: 0;
-        margin: 0;
         cursor: pointer;
-    }}
-    button[kind="secondary"] {{
-        display: none;
+        z-index: 9999;
+        text-indent: -9999px;  /* hide label text */
     }}
     </style>
-
-    <div class="home-icon">
-        <img src="data:image/png;base64,{home_icon_b64}" width="150" />
-    </div>
 """, unsafe_allow_html=True)
 
+# If clicked, go back to home
 if clicked:
     st.experimental_set_query_params()
     st.experimental_rerun()

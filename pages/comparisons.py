@@ -7,6 +7,7 @@ from utils import centered_image_html
 from utils import image_to_base64
 from src.team_analyzer import get_team_synergy, llm_team_synergy_summary
 from src.clarify_names import clarify_pokemon_names
+from PIL import Image
 
 
 st.set_page_config(
@@ -66,38 +67,27 @@ st.markdown(f"""
 # Render pixel-art title, centered
 st.markdown(centered_image_html("assets/comparison_title.png", width=700), unsafe_allow_html=True)
 
-home_icon_b64 = image_to_base64("assets/back_to_home.png")
+# Display image (visual)
+img = Image.open("assets/back_to_home.png")
+col = st.columns([1, 8])[0]
+with col:
+    if st.button(" ", key="home_button"):
+        st.experimental_set_query_params()
+        st.experimental_rerun()
+    st.image(img, width=150)
 
-# Invisible Streamlit button over the image
-clicked = st.button(" ", key="home_btn")
-
-# Render fixed-position base64 image and invisible button area
-st.markdown(f"""
+# Hide the default button styling
+st.markdown("""
     <style>
-    .home-icon {{
-        position: fixed;
-        top: 80px;
-        left: 50px;
-        z-index: 9999;
-        background: none;
-        border: none;
-        padding: 0;
-        margin: 0;
-        cursor: pointer;
-    }}
-    button[kind="secondary"] {{
-        display: none;
-    }}
+    button[kind="secondary"] {
+        background-color: transparent !important;
+        border: none !important;
+        height: 0px !important;
+        padding: 0 !important;
+        margin-bottom: -20px !important;
+    }
     </style>
-
-    <div class="home-icon">
-        <img src="data:image/png;base64,{home_icon_b64}" width="150" />
-    </div>
 """, unsafe_allow_html=True)
-
-if clicked:
-    st.experimental_set_query_params()
-    st.experimental_rerun()
 
 # Walkthrough button
 walkthrough_icon_b64 = image_to_base64("assets/to_walkthrough.png")
