@@ -26,5 +26,5 @@ numpy
 boto3
 python-dotenv
 Pillow
-matplotlib
 pandas
+seaborn
