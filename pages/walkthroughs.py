@@ -64,32 +64,26 @@ st.markdown(f"""
 # Render pixel-art title, centered
 st.markdown(centered_image_html("assets/walkthrough_title.png", width=700), unsafe_allow_html=True)
 
-img = Image.open("assets/back_to_home.png")
-col = st.columns([1, 8])[0]  # place on the left side
-
-with col:
-    st.image(img, width=150)  # display image
-
-    if st.button(" ", key="home_button"):
-        st.query_params.clear()
-        st.rerun()
-
-# Hide button styling completely
-st.markdown("""
+compare_icon_b64 = image_to_base64("assets/back_to_home.png")
+st.markdown(f"""
     <style>
-    button[kind="secondary"] {
-        background-color: transparent !important;
-        border: none !important;
-        height: 0px !important;
-        padding: 0 !important;
-        margin-top: -150px !important;
-        position: absolute;
+    .compare-icon {{
+        position: fixed;
         top: 80px;
-        left: 50px;
+        leftt: 50px;
+        z-index: 9999;
+    }}
+
+    .compare-icon img {{
         width: 150px;
-        z-index: 1000;
-    }
+        height: auto;
+        cursor: pointer;
+    }}
     </style>
+
+    <a href="/" target="_self" class="compare-icon">
+        <img src="data:image/png;base64,{compare_icon_b64}" alt="Compare">
+    </a>
 """, unsafe_allow_html=True)
 
 # Compare button
