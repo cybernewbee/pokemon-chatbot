@@ -65,49 +65,34 @@ st.markdown(f"""
 st.markdown(centered_image_html("assets/walkthrough_title.png", width=700), unsafe_allow_html=True)
 
 home_icon_b64 = image_to_base64("assets/back_to_home.png")
-
+compare_icon_b64 = image_to_base64("assets/to_compare.png")
 # home buttom
 st.markdown(f"""
     <style>
-    .home-icon {{
-        margin-top: 80px;
-        margin-left: 50px;
-        z-index: 9999;
+    .scroll-top-bar {{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 0px;
+        padding: 0 40px;
     }}
-
-    .home-icon img {{
+    .scroll-top-bar img {{
         width: 150px;
         height: auto;
         cursor: pointer;
     }}
     </style>
 
-    <a href="/" target="_self" class="home-icon">
-        <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
-    </a>
+    <div class="scroll-top-bar">
+        <a href="/" target="_self">
+            <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
+        </a>
+        <a href="/comparisons" target="_self">
+            <img src="data:image/png;base64,{compare_icon_b64}" alt="Compare">
+        </a>
+    </div>
 """, unsafe_allow_html=True)
 
-# Compare button
-compare_icon_b64 = image_to_base64("assets/to_compare.png")
-st.markdown(f"""
-    <style>
-    .compare-icon {{
-        margin-top: 80px;
-        margin-right: 50px;
-        z-index: 9999;
-    }}
-
-    .compare-icon img {{
-        width: 150px;
-        height: auto;
-        cursor: pointer;
-    }}
-    </style>
-
-    <a href="/comparisons" target="_self" class="compare-icon">
-        <img src="data:image/png;base64,{compare_icon_b64}" alt="Compare">
-    </a>
-""", unsafe_allow_html=True)
 
 
 with st.container():

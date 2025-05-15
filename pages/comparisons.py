@@ -76,49 +76,34 @@ st.markdown(f"""
 st.markdown(centered_image_html("assets/comparison_title.png", width=700), unsafe_allow_html=True)
 
 home_icon_b64 = image_to_base64("assets/back_to_home.png")
-
-# home buttom
-st.markdown(f"""
-    <style>
-    .home-icon {{
-        margin-top: 80px;
-        margin-left: 50px;
-        z-index: 9999;
-    }}
-
-    .home-icon img {{
-        width: 150px;
-        height: auto;
-        cursor: pointer;
-    }}
-    </style>
-
-    <a href="/" target="_self" class="home-icon">
-        <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
-    </a>
-""", unsafe_allow_html=True)
-
-# Walkthrough button
 walkthrough_icon_b64 = image_to_base64("assets/to_walkthrough.png")
+
 st.markdown(f"""
     <style>
-    .walkthrough-icon {{
-        margin-top: 80px;
-        margin-right: 50px;
-        z-index: 9999;
+    .top-button-bar {{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 40px;
+        padding: 0 50px;
     }}
-
-    .walkthrough-icon img {{
+    .top-button-bar img {{
         width: 150px;
         height: auto;
         cursor: pointer;
     }}
     </style>
 
-    <a href="/walkthroughs" target="_self" class="walkthrough-icon">
-        <img src="data:image/png;base64,{walkthrough_icon_b64}" alt="Walkthrough">
-    </a>
+    <div class="top-button-bar">
+        <a href="/" target="_self">
+            <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
+        </a>
+        <a href="/walkthroughs" target="_self">
+            <img src="data:image/png;base64,{walkthrough_icon_b64}" alt="Walkthrough">
+        </a>
+    </div>
 """, unsafe_allow_html=True)
+
 # Two taps
 tab1, tab2 = st.tabs(["Compare Two Pokémon", "Team Analyzer"])
 with tab1:
