@@ -64,7 +64,7 @@ st.markdown(f"""
 # Render pixel-art title, centered
 st.markdown(centered_image_html("assets/walkthrough_title.png", width=700), unsafe_allow_html=True)
 
-compare_icon_b64 = image_to_base64("assets/back_to_home.png")
+back_to_home_icon_b64 = image_to_base64("assets/back_to_home.png")
 st.markdown(f"""
     <style>
     .compare-icon {{
@@ -82,7 +82,7 @@ st.markdown(f"""
     </style>
 
     <a href="/" target="_self" class="compare-icon">
-        <img src="data:image/png;base64,{compare_icon_b64}" alt="Compare">
+        <img src="data:image/png;base64,{back_to_home_icon_b64}" alt="Compare">
     </a>
 """, unsafe_allow_html=True)
 
