@@ -81,8 +81,8 @@ home_icon_b64 = image_to_base64("assets/back_to_home.png")
 st.markdown(f"""
     <style>
     .home-icon {{
-        top: 80px;
-        left: 50px;
+        margin-top: 80px;
+        margin-left: 50px;
         z-index: 9999;
     }}
 
@@ -103,8 +103,8 @@ walkthrough_icon_b64 = image_to_base64("assets/to_walkthrough.png")
 st.markdown(f"""
     <style>
     .walkthrough-icon {{
-        top: 80px;
-        right: 50px;
+        margin-top: 80px;
+        margin-right: 50px;
         z-index: 9999;
     }}
 
