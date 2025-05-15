@@ -2,7 +2,7 @@ import streamlit as st
 from utils import image_to_base64
 # --- Page config ---
 st.set_page_config(
-    page_title="Pokémon Chatbot",
+    page_title="Pokemon Walkthrough & Comparison Assistant",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
