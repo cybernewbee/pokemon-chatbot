@@ -73,39 +73,41 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 # Render pixel-art title, centered
-st.markdown(centered_image_html("assets/comparison_title.png", width=700), unsafe_allow_html=True)
-
 home_icon_b64 = image_to_base64("assets/back_to_home.png")
 walkthrough_icon_b64 = image_to_base64("assets/to_walkthrough.png")
-
 st.markdown(f"""
     <style>
-    .scrolling-nav {{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        padding: 0 40px;
-        margin-top: -3.5rem;
-        margin-bottom: 2rem;
+    .nav-button-wrapper {{
+        position: relative;
+        height: 0;
     }}
-    .scrolling-nav img {{
+
+    .home-icon, .compare-icon {{
+        position: absolute;
+        top: 10px;
         width: 150px;
-        height: auto;
         cursor: pointer;
+    }}
+
+    .home-icon {{
+        left: 10px;
+    }}
+
+    .compare-icon {{
+        right: 10px;
     }}
     </style>
 
-    <div class="scrolling-nav">
-        <a href="/" target="_self">
+    <div class="nav-button-wrapper">
+        <a href="/" target="_self" class="home-icon">
             <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
         </a>
-        <a href="/walkthroughs" target="_self">
-            <img src="data:image/png;base64,{walkthrough_icon_b64}" alt="Walkthrough">
+        <a href="/walkthroughs" target="_self" class="compare-icon">
+            <img src="data:image/png;base64,{walkthrough_icon_b64}" alt="Compare">
         </a>
     </div>
 """, unsafe_allow_html=True)
-
+st.markdown(centered_image_html("assets/comparison_title.png", width=700), unsafe_allow_html=True)
 # Two taps
 tab1, tab2 = st.tabs(["Compare Two Pokémon", "Team Analyzer"])
 with tab1:

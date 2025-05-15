@@ -60,40 +60,47 @@ st.markdown(f"""
     <div class="light-overlay"></div>
 """, unsafe_allow_html=True)
 
-
 # Render pixel-art title, centered
-st.markdown(centered_image_html("assets/walkthrough_title.png", width=700), unsafe_allow_html=True)
-
+# 1. Nav buttons first (using the absolute positioning solution)
 home_icon_b64 = image_to_base64("assets/back_to_home.png")
 compare_icon_b64 = image_to_base64("assets/to_compare.png")
 
 st.markdown(f"""
     <style>
-    .scrolling-nav {{
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        padding: 0 40px;
-        margin-top: -3.5rem;
-        margin-bottom: 2rem;
+    .nav-button-wrapper {{
+        position: relative;
+        height: 0;
     }}
-    .scrolling-nav img {{
+
+    .home-icon, .compare-icon {{
+        position: absolute;
+        top: 10px;
         width: 150px;
-        height: auto;
         cursor: pointer;
+    }}
+
+    .home-icon {{
+        left: 10px;
+    }}
+
+    .compare-icon {{
+        right: 10px;
     }}
     </style>
 
-    <div class="scrolling-nav">
-        <a href="/" target="_self">
+    <div class="nav-button-wrapper">
+        <a href="/" target="_self" class="home-icon">
             <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
         </a>
-        <a href="/walkthroughs" target="_self">
-            <img src="data:image/png;base64,{compare_icon_b64}" alt="Walkthrough">
+        <a href="/comparisons" target="_self" class="compare-icon">
+            <img src="data:image/png;base64,{compare_icon_b64}" alt="Compare">
         </a>
     </div>
 """, unsafe_allow_html=True)
+
+# 2. Then show the centered title image
+st.markdown(centered_image_html("assets/walkthrough_title.png", width=700), unsafe_allow_html=True)
+
 
 with st.container():
     # Initialize state keys if needed
