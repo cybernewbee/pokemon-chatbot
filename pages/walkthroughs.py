@@ -67,32 +67,24 @@ compare_icon_b64 = image_to_base64("assets/to_compare.png")
 
 st.markdown(f"""
     <style>
-    .nav-button-wrapper {{
-        position: relative;
-        height: 0;
+    .page-nav {{
+        display: flex;
+        justify-content: space-between;
+        margin-top: 0px;
+        margin-bottom: 1rem;
     }}
-
-    .home-icon, .compare-icon {{
-        position: absolute;
-        top: 10px;
+    .page-nav img {{
         width: 150px;
+        height: auto;
         cursor: pointer;
-    }}
-
-    .home-icon {{
-        left: 10px;
-    }}
-
-    .compare-icon {{
-        right: 10px;
     }}
     </style>
 
-    <div class="nav-button-wrapper">
-        <a href="/" target="_self" class="home-icon">
+    <div class="page-nav">
+        <a href="/" target="_self">
             <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
         </a>
-        <a href="/comparisons" target="_self" class="compare-icon">
+        <a href="/comparisons" target="_self">
             <img src="data:image/png;base64,{compare_icon_b64}" alt="Compare">
         </a>
     </div>
