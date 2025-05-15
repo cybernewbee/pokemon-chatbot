@@ -70,7 +70,7 @@ st.markdown(f"""
     .compare-icon {{
         position: fixed;
         top: 80px;
-        leftt: 50px;
+        left: 50px;
         z-index: 9999;
     }}
 
