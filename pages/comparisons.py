@@ -233,7 +233,7 @@ with tab1:
 
     # Only call chart if at least one is valid
     if (p1 and "error" not in p1) or (p2 and "error" not in p2):
-        st.subheader("🕸️ Radar Chart Comparison")
+        st.subheader("Radar Chart Comparison")
         stat_order = ["hp", "attack", "defense", "special-attack", "special-defense", "speed"]
         plot_radar_chart(p1, p2, stat_order)
 # Divider
@@ -263,32 +263,38 @@ with tab2:
                 st.session_state.team_names = clarified_names
         else:
             st.warning("Please enter 1 to 6 valid Pokémon names.")
-
+    
+    if st.session_state.team_data:
     # Analyzer block
-    def show_heatmap(matrix, title):
-        st.markdown(f"#### {title}")
-        fig, ax = plt.subplots(figsize=(12, 4))
-        sns.heatmap(matrix.astype(float), annot=True, cmap="coolwarm", fmt=".1f", linewidths=0.5, ax=ax)
-        st.pyplot(fig)
+        def style_matrix(df):
+            def color_cell(val):
+                if val == 2.0:
+                    return "background-color: #ffcccc"  # red for weakness
+                elif val == 0.5:
+                    return "background-color: #ccffcc"  # green for resist
+                elif val == 0.0:
+                    return "background-color: #dddddd"  # gray for immune
+                else:
+                    return ""
+            return df.style.applymap(color_cell)
 
-    st.markdown("##Rule-Based Team Summary")
-    st.markdown(get_team_synergy(st.session_state.team_data))
+        st.markdown("Rule-Based Team Summary")
+        st.markdown(get_team_synergy(st.session_state.team_data))
 
-    st.markdown("##Team Strength Summary")
-    st.markdown(llm_team_synergy_summary(st.session_state.team_data))
+        st.markdown("Team Strength Summary")
+        st.markdown(llm_team_synergy_summary(st.session_state.team_data))
 
-    st.markdown("##Team Defense Matrix")
-    df_def = build_team_defense_matrix(st.session_state.team_data)
-    st.dataframe(df_def)
-    show_heatmap(df_def, "Team Defense Matrix (Incoming Damage)")
+        st.markdown("Team Defense Matrix")
+        df_def = build_team_defense_matrix(st.session_state.team_data)
+        styled_df_def = style_matrix(df_def)
+        st.dataframe(styled_df_def, use_container_width=True)
+        
 
-    st.markdown("##Team Offense Matrix")
-    df_off = build_team_offense_matrix(st.session_state.team_data)
-    st.dataframe(df_off)
-    show_heatmap(df_off, "Team Offense Matrix (Outgoing Coverage)")
-
-
-# At the bottom of your comparison or walkthrough page:
+        st.markdown("Team Offense Matrix")
+        df_off = build_team_offense_matrix(st.session_state.team_data)
+        styled_df_off = style_matrix(df_off)
+        st.dataframe(styled_df_off, use_container_width=True)
+    
 
 # Inject floating buttons via HTML/CSS
 st.markdown("""
