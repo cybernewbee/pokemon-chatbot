@@ -66,10 +66,8 @@ st.markdown(centered_image_html("assets/walkthrough_title.png", width=700), unsa
 
 home_icon_b64 = image_to_base64("assets/back_to_home.png")
 
-# Render an actual Streamlit button named 'home'
 clicked = st.button("home", key="home_btn")
 
-# Style that button to use the image as its background
 st.markdown(f"""
     <style>
     button[title="home"] {{
@@ -83,15 +81,17 @@ st.markdown(f"""
         border: none;
         cursor: pointer;
         z-index: 9999;
-        text-indent: -9999px;  /* hide label text */
+        text-indent: -9999px;
     }}
     </style>
 """, unsafe_allow_html=True)
 
-# If clicked, go back to home
 if clicked:
-    st.experimental_set_query_params()
-    st.experimental_rerun()
+    st.query_params.clear()
+    try:
+        st.rerun()
+    except:
+        pass
 
 # Compare button
 compare_icon_b64 = image_to_base64("assets/to_compare.png")
