@@ -5,9 +5,17 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from utils import centered_image_html
 from utils import image_to_base64
-from src.team_analyzer import get_team_synergy, llm_team_synergy_summary
 from src.clarify_names import clarify_pokemon_names
 from PIL import Image
+from src.team_analyzer import (
+        get_team_synergy,
+        llm_team_synergy_summary,
+        build_team_defense_matrix,
+        build_team_offense_matrix
+    )
+
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 
 st.set_page_config(
@@ -256,14 +264,29 @@ with tab2:
         else:
             st.warning("Please enter 1 to 6 valid Pokémon names.")
 
-    # Render result if team data exists
-    if st.session_state.team_data:
-        st.caption(f"Interpreted Team: {', '.join(st.session_state.team_names)}")
-        st.subheader("Rule-Based Team Analysis")
-        st.markdown(get_team_synergy(st.session_state.team_data))
+    # Analyzer block
+    def show_heatmap(matrix, title):
+        st.markdown(f"#### {title}")
+        fig, ax = plt.subplots(figsize=(12, 4))
+        sns.heatmap(matrix.astype(float), annot=True, cmap="coolwarm", fmt=".1f", linewidths=0.5, ax=ax)
+        st.pyplot(fig)
 
-        st.subheader("Team Strength Summary")
-        st.markdown(llm_team_synergy_summary(st.session_state.team_data))
+    st.markdown("##Rule-Based Team Summary")
+    st.markdown(get_team_synergy(st.session_state.team_data))
+
+    st.markdown("##Team Strength Summary")
+    st.markdown(llm_team_synergy_summary(st.session_state.team_data))
+
+    st.markdown("##Team Defense Matrix")
+    df_def = build_team_defense_matrix(st.session_state.team_data)
+    st.dataframe(df_def)
+    show_heatmap(df_def, "Team Defense Matrix (Incoming Damage)")
+
+    st.markdown("##Team Offense Matrix")
+    df_off = build_team_offense_matrix(st.session_state.team_data)
+    st.dataframe(df_off)
+    show_heatmap(df_off, "Team Offense Matrix (Outgoing Coverage)")
+
 
 # At the bottom of your comparison or walkthrough page:
 

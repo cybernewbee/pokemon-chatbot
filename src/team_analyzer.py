@@ -1,6 +1,7 @@
 from collections import Counter
 from typing import List
 from src.bedrock_chatbot import chat_with_claude  # Or replace with your own LLM wrapper
+import pandas as pd
 
 def get_team_synergy(pokemon_list: List[dict]) -> str:
     """
@@ -54,3 +55,28 @@ def llm_team_synergy_summary(pokemon_list: List[dict]) -> str:
         return chat_with_claude(prompt)
     except Exception as e:
         return f"_LLM summary failed: {e}_"
+
+all_types = ['normal', 'fire', 'water', 'electric', 'grass', 'ice', 'fighting', 'poison', 'ground',
+             'flying', 'psychic', 'bug', 'rock', 'ghost', 'dragon', 'dark', 'steel', 'fairy']
+
+def build_team_defense_matrix(team):
+    df = pd.DataFrame(index=[p["name"] for p in team], columns=all_types, data=1.0)
+    for p in team:
+        for t in p.get("weak_to", []):
+            df.loc[p["name"], t] = 2.0
+        for t in p.get("resists", []):
+            df.loc[p["name"], t] = 0.5
+        for t in p.get("immune_to", []):
+            df.loc[p["name"], t] = 0.0
+    return df
+
+def build_team_offense_matrix(team):
+    df = pd.DataFrame(index=[p["name"] for p in team], columns=all_types, data=1.0)
+    for p in team:
+        for t in p.get("strong_against", []):
+            df.loc[p["name"], t] = 2.0
+        for t in p.get("not_effective_against", []):
+            df.loc[p["name"], t] = 0.5
+        for t in p.get("no_effect_against", []):
+            df.loc[p["name"], t] = 0.0
+    return df

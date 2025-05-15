@@ -42,6 +42,51 @@ def get_pokemon_details(name: str) -> dict:
     types = [t["type"]["name"] for t in pokemon_data.get("types", [])]
     result["types"] = types
 
+    # damage_relation
+    # Type effectiveness (defensive profile)
+    # Type effectiveness (defensive and offensive)
+    damage_relations = {
+        "weak_to": set(),
+        "resists": set(),
+        "immune_to": set(),
+        "strong_against": set(),
+        "not_effective_against": set(),
+        "no_effect_against": set()
+    }
+
+    for type_name in types:
+        type_url = f"{base_url}/type/{type_name}"
+        r = requests.get(type_url)
+        if r.status_code != 200:
+            continue
+        type_data = r.json()
+        relations = type_data["damage_relations"]
+
+        # Defensive
+        for entry in relations["double_damage_from"]:
+            damage_relations["weak_to"].add(entry["name"])
+        for entry in relations["half_damage_from"]:
+            damage_relations["resists"].add(entry["name"])
+        for entry in relations["no_damage_from"]:
+            damage_relations["immune_to"].add(entry["name"])
+
+        # Offensive
+        for entry in relations["double_damage_to"]:
+            damage_relations["strong_against"].add(entry["name"])
+        for entry in relations["half_damage_to"]:
+            damage_relations["not_effective_against"].add(entry["name"])
+        for entry in relations["no_damage_to"]:
+            damage_relations["no_effect_against"].add(entry["name"])
+
+    # Sort and add to result
+    result["weak_to"] = sorted(damage_relations["weak_to"])
+    result["resists"] = sorted(damage_relations["resists"])
+    result["immune_to"] = sorted(damage_relations["immune_to"])
+    result["strong_against"] = sorted(damage_relations["strong_against"])
+    result["not_effective_against"] = sorted(damage_relations["not_effective_against"])
+    result["no_effect_against"] = sorted(damage_relations["no_effect_against"])
+
+
     # Evolution chain
     evolution_chain_url = species_data['evolution_chain']['url']
     evolution_response = requests.get(evolution_chain_url)
@@ -93,11 +138,7 @@ def get_pokemon_details(name: str) -> dict:
         stats[stat_name] = stat_value
     result["stats"] = stats
 
-    # Get weaknesses and strengths from type data
-    damage_relations = {
-        "weak_to": set(),
-        "strong_against": set()
-    }
+  
 
     for type_name in types:
         type_url = f"{base_url}/type/{type_name}"
