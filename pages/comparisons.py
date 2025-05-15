@@ -257,23 +257,23 @@ with tab2:
                 else:
                     return ""
             return df.style.applymap(color_cell)
+        with st.spinner("Analyzing team synergy and coverage..."):
+            st.markdown("Rule-Based Team Summary")
+            st.markdown(get_team_synergy(st.session_state.team_data))
 
-        st.markdown("Rule-Based Team Summary")
-        st.markdown(get_team_synergy(st.session_state.team_data))
+            st.markdown("Team Strength Summary")
+            st.markdown(llm_team_synergy_summary(st.session_state.team_data))
 
-        st.markdown("Team Strength Summary")
-        st.markdown(llm_team_synergy_summary(st.session_state.team_data))
+            st.markdown("Team Defense Matrix")
+            df_def = build_team_defense_matrix(st.session_state.team_data)
+            styled_df_def = style_matrix(df_def)
+            st.dataframe(styled_df_def, use_container_width=True)
+            
 
-        st.markdown("Team Defense Matrix")
-        df_def = build_team_defense_matrix(st.session_state.team_data)
-        styled_df_def = style_matrix(df_def)
-        st.dataframe(styled_df_def, use_container_width=True)
-        
-
-        st.markdown("Team Offense Matrix")
-        df_off = build_team_offense_matrix(st.session_state.team_data)
-        styled_df_off = style_matrix(df_off)
-        st.dataframe(styled_df_off, use_container_width=True)
+            st.markdown("Team Offense Matrix")
+            df_off = build_team_offense_matrix(st.session_state.team_data)
+            styled_df_off = style_matrix(df_off)
+            st.dataframe(styled_df_off, use_container_width=True)
     
 
 # Inject floating buttons via HTML/CSS
