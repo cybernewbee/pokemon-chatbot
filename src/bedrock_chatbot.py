@@ -23,8 +23,8 @@ def chat_with_claude(prompt, context=""):
             }
         ],
         "max_tokens": 800,
-        "temperature": 0.7,
-        "top_p": 1.0
+        "temperature": 0.3,
+        "top_p": 0.9
     }
 
     try:

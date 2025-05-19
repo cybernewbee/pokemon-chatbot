@@ -16,13 +16,14 @@ def generate_walkthrough_article(user_question: str, sources: list) -> str:
     context = "\n\n".join(context_blocks)
     
     prompt = (
-        f"You are a Pokémon walkthrough writer.\n"
-        f"Based on the following snippets from trusted sources, write a detailed, article-style walkthrough "
-        f"answering this player question:\n\n"
+        "You are a professional Pokémon walkthrough writer.\n\n"
+        "Using the following snippets from trusted sources, write a clear, step-by-step game guide that answers this player question:\n"
         f"---\n{user_question}\n---\n\n"
-        f"The article should be structured and readable, like a game guide. Include helpful advice, stat, strengths, weaknesses, locations, and strategy where possible. "
-        f"At the end, include a reference section with the source links.\n\n"
-        f"### Source Material:\n{context}"
+        "Structure the answer like a walkthrough article. Be specific, not generic. Mention exact locations, route numbers, event triggers, battle tips, stats, and strategic advice.\n"
+        "Avoid speculation unless clearly noted. Add context if helpful (e.g., evolution requirements, game version differences).\n\n"
+        "### Source Material:\n"
+        f"{context}\n\n"
+        "At the end, include a 'References' section with the source links."
     )
 
     return chat_with_claude(prompt)
