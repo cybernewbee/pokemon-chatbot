@@ -102,9 +102,13 @@ st.markdown(f"""
 
 st.markdown(centered_image_html("assets/comparison_title.png", width=700), unsafe_allow_html=True)
 # Two taps
+# === Tab Control with Session State ===
+if "active_tab" not in st.session_state:
+    st.session_state.active_tab = "tab1"
+
 tab1, tab2 = st.tabs(["Compare Two Pokémon", "Team Analyzer"])
 with tab1:
-
+    st.session_state.active_tab = "tab1"
     if "last_compare" not in st.session_state:
         st.session_state.last_compare = ("", "")
         st.session_state.p1 = None
@@ -219,6 +223,7 @@ with tab1:
 # Divider
 
 with tab2:
+    st.session_state.active_tab = "tab2"
     st.markdown("Enter up to 6 Pokémon to evaluate team synergy.")
 
     # Initialize session state
@@ -231,6 +236,8 @@ with tab2:
 
     # Define update handler
     def update_team_input():
+        st.session_state.active_tab = "tab2"  # ✅ Ensure rerun stays on Team Analyzer tab
+
         team_input = st.session_state.input_box
         st.session_state.last_team_input = team_input
 
@@ -242,6 +249,7 @@ with tab2:
                 st.session_state.team_names = clarified_names
         else:
             st.warning("Please enter 1 to 6 valid Pokémon names.")
+
 
     # Input box with on_change handler
     st.text_input(
