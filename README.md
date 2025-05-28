@@ -12,28 +12,6 @@ A game guide assistant assistant built with **Streamlit** and powered by **LangC
 - **Multilingual Support**: Recognizes Pokémon names in Chinese and Japanese using automatic reverse lookup.
 - **Pixel-Style Interface**: Retro-themed design with sprite integration and radar charts.
 
-## 📦 Project Structure
-├── app.py # Streamlit homepage
-├── pages/
-│ ├── walkthroughs.py # Walkthrough assistant tab
-│ ├── comparisons.py # Comparison tab
-├── src/
-│ ├── answer_pipeline.py 
-│ ├── bedrock_chatbot.py 
-│ ├── clarify_names.py 
-│ ├── claude_writer.py 
-│ ├── config.py 
-│ ├── extract_query_prompt.py 
-│ ├── google_api.py 
-│ ├── pokeapi.py 
-│ ├── query_extractor.py 
-│ ├── reverse_lookup.py 
-│ └── team_analyzer.py 
-├── assets/ 
-├──requirements.txt 
-├── README.md
-└── utils.py 
-
 ## 🎮 How to use
 
 1. Click the **Walkthroughs** tab to ask questions about Pokémon games, stats, and game guide.
