@@ -15,44 +15,23 @@ from src.team_analyzer import (
     )
 
 import seaborn as sns
-import matplotlib.pyplot as plt
-
 
 st.set_page_config(
-    page_title="Compare Pokémon",  # 👈 THIS name defines the URL
+    page_title="Compare Pokémon",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
-st.markdown("<a name='top'></a>", unsafe_allow_html=True)
-st.markdown("""
-    <style>
-    .block-container { padding-top: 1rem; }
-    header, h1 { display: none; }
-    </style>
-""", unsafe_allow_html=True)
-# Hide streamlit bar
-st.markdown("""
-    <style>
-    header, footer, #MainMenu {
-        visibility: hidden;
-    }
-    </style>
-""", unsafe_allow_html=True)
 
-# Background
+# Background and styling
 bg_base64 = image_to_base64("assets/pixel_bg0.png")
-
 st.markdown(f"""
     <style>
-    /* Background image for entire app */
     .stApp {{
         background-image: url("data:image/png;base64,{bg_base64}");
         background-repeat: repeat;
         background-size: 1024px auto;
         background-attachment: fixed;
     }}
-
-    /* Light overlay to soften the background */
     .light-overlay {{
         position: fixed;
         top: 0;
@@ -62,17 +41,16 @@ st.markdown(f"""
         background: rgba(255, 255, 255, 0.6);
         z-index: 0;
     }}
-
-    /* Make sure all content appears above the overlay */
     .main > div {{
         position: relative;
         z-index: 1;
     }}
+    .block-container {{ padding-top: 1rem; }}
+    header, footer, #MainMenu {{ visibility: hidden; }}
     </style>
     <div class="light-overlay"></div>
 """, unsafe_allow_html=True)
 
-# Render pixel-art title, centered
 home_icon_b64 = image_to_base64("assets/back_to_home.png")
 walkthrough_icon_b64 = image_to_base64("assets/to_walkthrough.png")
 st.markdown(f"""
@@ -89,7 +67,6 @@ st.markdown(f"""
         cursor: pointer;
     }}
     </style>
-
     <div class="page-nav">
         <a href="/" target="_self">
             <img src="data:image/png;base64,{home_icon_b64}" alt="Home">
@@ -101,21 +78,22 @@ st.markdown(f"""
 """, unsafe_allow_html=True)
 
 st.markdown(centered_image_html("assets/comparison_title.png", width=700), unsafe_allow_html=True)
-# Two taps
-# === Tab Control with Session State ===
+
+# === Tab control using radio ===
 if "active_tab" not in st.session_state:
     st.session_state.active_tab = "tab1"
 
-tab1, tab2 = st.tabs(["Compare Two Pokémon", "Team Analyzer"])
-with tab1:
-    st.session_state.active_tab = "tab1"
+tab = st.radio("Choose a mode:", ["Compare Two Pokémon", "Team Analyzer"], index=0 if st.session_state.active_tab == "tab1" else 1)
+st.session_state.active_tab = "tab1" if tab == "Compare Two Pokémon" else "tab2"
+
+# === Compare Two Pokémon ===
+if tab == "Compare Two Pokémon":
     if "last_compare" not in st.session_state:
         st.session_state.last_compare = ("", "")
         st.session_state.p1 = None
         st.session_state.p2 = None
-    
-    col1, col2 = st.columns(2)
 
+    col1, col2 = st.columns(2)
     with col1:
         pokemon_1 = st.text_input("Enter first Pokémon name:", key="poke1")
     with col2:
@@ -123,7 +101,6 @@ with tab1:
 
     pokemon_1 = pokemon_1.strip().lower() if pokemon_1 else ""
     pokemon_2 = pokemon_2.strip().lower() if pokemon_2 else ""
-    
 
     if (pokemon_1, pokemon_2) != st.session_state.last_compare:
         st.session_state.last_compare = (pokemon_1, pokemon_2)
@@ -131,102 +108,62 @@ with tab1:
             st.session_state.p1 = get_pokemon_details(pokemon_1) if pokemon_1 else None
             st.session_state.p2 = get_pokemon_details(pokemon_2) if pokemon_2 else None
 
-        # Use local refs for rendering
     p1 = st.session_state.p1
     p2 = st.session_state.p2
 
-    if p1 and "error" in p1:
-        col1.error(p1["error"])
-    if p2 and "error" in p2:
-        col2.error(p2["error"])
-
-    if p1 and "error" not in p1:
-        col1.image(p1["sprites"].get("official_artwork"), caption=p1["name"])
-        col1.subheader("Type")
-        col1.write(", ".join(p1.get("types", [])))
-        col1.subheader("Strengths & Weaknesses")
-        strong = p1.get("strong_against", [])
-        weak = p1.get("weak_to", [])
-        if strong:
-            col1.markdown(f"🗡️ **Strong Against:** {', '.join(strong)}")
-        if weak:
-            col1.markdown(f"🔥 **Weak To:** {', '.join(weak)}")
-
-        col1.subheader("Abilities")
-        for a in p1.get("abilities", []):
-            col1.write(f"• {a}")
-        col1.subheader("Base Stats")
-        for stat, val in p1.get("stats", {}).items():
-            col1.write(f"{stat.title()}: {val}")
-        col1.subheader("Evolution Chain")
-        for chain in p1.get("evolution_chain", []):
-            col1.write(chain)
-        col1.subheader("Games")
-        col1.write(", ".join(p1.get("associated_games", [])))
-        col1.subheader("Cry")
-        col1.audio(p1.get("cry_url"))
-
-    if p2 and "error" not in p2:
-        col2.image(p2["sprites"].get("official_artwork"), caption=p2["name"])
-        col2.subheader("Type")
-        col2.write(", ".join(p2.get("types", [])))
-        col2.subheader("Strengths & Weaknesses")
-        strong = p2.get("strong_against", [])
-        weak = p2.get("weak_to", [])
-        if strong:
-            col2.markdown(f"🗡️ **Strong Against:** {', '.join(strong)}")
-        if weak:
-            col2.markdown(f"🔥 **Weak To:** {', '.join(weak)}")
-        col2.subheader("Abilities")
-        for a in p2.get("abilities", []):
-            col2.write(f"• {a}")
-        col2.subheader("Base Stats")
-        for stat, val in p2.get("stats", {}).items():
-            col2.write(f"{stat.title()}: {val}")
-        col2.subheader("Evolution Chain")
-        for chain in p2.get("evolution_chain", []):
-            col2.write(chain)
-        col2.subheader("Games")
-        col2.write(", ".join(p2.get("associated_games", [])))
-        col2.subheader("Cry")
-        col2.audio(p2.get("cry_url"))
+    for poke, col in zip([p1, p2], [col1, col2]):
+        if poke and "error" in poke:
+            col.error(poke["error"])
+        elif poke:
+            col.image(poke["sprites"].get("official_artwork"), caption=poke["name"])
+            col.subheader("Type")
+            col.write(", ".join(poke.get("types", [])))
+            col.subheader("Strengths & Weaknesses")
+            strong = poke.get("strong_against", [])
+            weak = poke.get("weak_to", [])
+            if strong:
+                col.markdown(f"🗡️ **Strong Against:** {', '.join(strong)}")
+            if weak:
+                col.markdown(f"🔥 **Weak To:** {', '.join(weak)}")
+            col.subheader("Abilities")
+            for a in poke.get("abilities", []):
+                col.write(f"• {a}")
+            col.subheader("Base Stats")
+            for stat, val in poke.get("stats", {}).items():
+                col.write(f"{stat.title()}: {val}")
+            col.subheader("Evolution Chain")
+            for chain in poke.get("evolution_chain", []):
+                col.write(chain)
+            col.subheader("Games")
+            col.write(", ".join(poke.get("associated_games", [])))
+            col.subheader("Cry")
+            col.audio(poke.get("cry_url"))
 
     def plot_radar_chart(p1, p2, labels):
         angles = np.linspace(0, 2 * np.pi, len(labels), endpoint=False).tolist()
         angles += angles[:1]
-
         fig, ax = plt.subplots(figsize=(6, 6), subplot_kw=dict(polar=True))
 
-        if p1 and "error" not in p1:
-            p1_values = [p1["stats"].get(stat, 0) for stat in labels] + [p1["stats"].get(labels[0], 0)]
-            ax.plot(angles, p1_values, label=p1["name"], color="blue")
-            ax.fill(angles, p1_values, alpha=0.25, color="blue")
+        for poke, color in zip([p1, p2], ["blue", "green"]):
+            if poke and "error" not in poke:
+                values = [poke["stats"].get(stat, 0) for stat in labels] + [poke["stats"].get(labels[0], 0)]
+                ax.plot(angles, values, label=poke["name"], color=color)
+                ax.fill(angles, values, alpha=0.25, color=color)
 
-        if p2 and "error" not in p2:
-            p2_values = [p2["stats"].get(stat, 0) for stat in labels] + [p2["stats"].get(labels[0], 0)]
-            ax.plot(angles, p2_values, label=p2["name"], color="green")
-            ax.fill(angles, p2_values, alpha=0.25, color="green")
+        ax.set_title("Radar Chart - Base Stats")
+        ax.set_xticks(angles[:-1])
+        ax.set_xticklabels([s.title() for s in labels])
+        ax.set_yticklabels([])
+        ax.legend(loc="upper right", bbox_to_anchor=(1.2, 1.1))
+        st.pyplot(fig)
 
-        if (p1 and "error" not in p1) or (p2 and "error" not in p2):
-            ax.set_title("Radar Chart - Base Stats")
-            ax.set_xticks(angles[:-1])
-            ax.set_xticklabels([s.title() for s in labels])
-            ax.set_yticklabels([])
-            ax.legend(loc="upper right", bbox_to_anchor=(1.2, 1.1))
-            st.pyplot(fig)
-
-    # Only call chart if at least one is valid
     if (p1 and "error" not in p1) or (p2 and "error" not in p2):
         st.subheader("Radar Chart Comparison")
         stat_order = ["hp", "attack", "defense", "special-attack", "special-defense", "speed"]
         plot_radar_chart(p1, p2, stat_order)
-# Divider
 
-with tab2:
-    st.session_state.active_tab = "tab2"
-    st.markdown("Enter up to 6 Pokémon to evaluate team synergy.")
-
-    # Initialize session state
+# === Team Analyzer ===
+elif tab == "Team Analyzer":
     if "last_team_input" not in st.session_state:
         st.session_state.last_team_input = ""
         st.session_state.team_data = []
@@ -234,10 +171,8 @@ with tab2:
     if "input_box" not in st.session_state:
         st.session_state.input_box = ""
 
-    # Define update handler
     def update_team_input():
-        st.session_state.active_tab = "tab2"  # ✅ Ensure rerun stays on Team Analyzer tab
-
+        st.session_state.active_tab = "tab2"
         team_input = st.session_state.input_box
         st.session_state.last_team_input = team_input
 
@@ -250,8 +185,6 @@ with tab2:
         else:
             st.warning("Please enter 1 to 6 valid Pokémon names.")
 
-
-    # Input box with on_change handler
     st.text_input(
         "Team Pokémon (comma-separated):",
         key="input_box",
@@ -260,7 +193,6 @@ with tab2:
         on_change=update_team_input
     )
 
-    # Analyzer block
     if st.session_state.team_data:
         def style_matrix(df):
             def color_cell(val):
@@ -289,9 +221,7 @@ with tab2:
             df_off = build_team_offense_matrix(st.session_state.team_data)
             st.dataframe(style_matrix(df_off), use_container_width=True)
 
-    
-
-# Inject floating buttons via HTML/CSS
+# Floating scroll-to-top button
 st.markdown("""
     <style>
     .scroll-top-btn {
@@ -310,15 +240,7 @@ st.markdown("""
         z-index: 9999;
     }
     </style>
-
     <a href="#top" class="scroll-top-btn">⬆️ Top</a>
 """, unsafe_allow_html=True)
 
-# Add the scroll anchor at the top of your page
 st.markdown("<a name='top'></a>", unsafe_allow_html=True)
-
-
-
-
-
-
