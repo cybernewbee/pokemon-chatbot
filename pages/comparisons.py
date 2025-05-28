@@ -79,15 +79,19 @@ st.markdown(f"""
 
 st.markdown(centered_image_html("assets/comparison_title.png", width=700), unsafe_allow_html=True)
 
-# === Tab control using radio ===
+# === Tab control using radio bound to session_state ===
 if "active_tab" not in st.session_state:
-    st.session_state.active_tab = "tab1"
+    st.session_state.active_tab = "Compare Two Pokémon"
 
-tab = st.radio("Choose a mode:", ["Compare Two Pokémon", "Team Analyzer"], index=0 if st.session_state.active_tab == "tab1" else 1)
-st.session_state.active_tab = "tab1" if tab == "Compare Two Pokémon" else "tab2"
+st.radio(
+    "Choose a mode:",
+    ["Compare Two Pokémon", "Team Analyzer"],
+    key="active_tab",
+    index=0 if st.session_state.active_tab == "Compare Two Pokémon" else 1
+)
 
 # === Compare Two Pokémon ===
-if tab == "Compare Two Pokémon":
+if st.session_state.active_tab == "Compare Two Pokémon":
     if "last_compare" not in st.session_state:
         st.session_state.last_compare = ("", "")
         st.session_state.p1 = None
@@ -163,7 +167,7 @@ if tab == "Compare Two Pokémon":
         plot_radar_chart(p1, p2, stat_order)
 
 # === Team Analyzer ===
-elif tab == "Team Analyzer":
+elif st.session_state.active_tab == "Team Analyzer":
     if "last_team_input" not in st.session_state:
         st.session_state.last_team_input = ""
         st.session_state.team_data = []
@@ -172,7 +176,6 @@ elif tab == "Team Analyzer":
         st.session_state.input_box = ""
 
     def update_team_input():
-        st.session_state.active_tab = "tab2"
         team_input = st.session_state.input_box
         st.session_state.last_team_input = team_input
 
