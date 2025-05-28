@@ -226,13 +226,12 @@ with tab2:
         st.session_state.last_team_input = ""
         st.session_state.team_data = []
         st.session_state.team_names = []
+    if "input_box" not in st.session_state:
+        st.session_state.input_box = ""
 
-    team_input = st.text_input(
-        "Team Pokémon (comma-separated):",
-        value=st.session_state.last_team_input,
-        placeholder="e.g. Gardevoir, Metagross, Salamence"
-    )
-    if team_input != st.session_state.last_team_input:
+    # Define update handler
+    def update_team_input():
+        team_input = st.session_state.input_box
         st.session_state.last_team_input = team_input
 
         team_names = [name.strip().lower() for name in team_input.split(",") if name.strip()]
@@ -243,20 +242,30 @@ with tab2:
                 st.session_state.team_names = clarified_names
         else:
             st.warning("Please enter 1 to 6 valid Pokémon names.")
-    
-    if st.session_state.team_data:
+
+    # Input box with on_change handler
+    st.text_input(
+        "Team Pokémon (comma-separated):",
+        key="input_box",
+        value=st.session_state.last_team_input,
+        placeholder="e.g. Gardevoir, Metagross, Salamence",
+        on_change=update_team_input
+    )
+
     # Analyzer block
+    if st.session_state.team_data:
         def style_matrix(df):
             def color_cell(val):
                 if val == 2.0:
-                    return "background-color: #ffcccc"  # red for weakness
+                    return "background-color: #ffcccc"
                 elif val == 0.5:
-                    return "background-color: #ccffcc"  # green for resist
+                    return "background-color: #ccffcc"
                 elif val == 0.0:
-                    return "background-color: #dddddd"  # gray for immune
+                    return "background-color: #dddddd"
                 else:
                     return ""
             return df.style.applymap(color_cell)
+
         with st.spinner("Analyzing team synergy and coverage..."):
             st.markdown("Rule-Based Team Summary")
             st.markdown(get_team_synergy(st.session_state.team_data))
@@ -266,14 +275,12 @@ with tab2:
 
             st.markdown("Team Defense Matrix")
             df_def = build_team_defense_matrix(st.session_state.team_data)
-            styled_df_def = style_matrix(df_def)
-            st.dataframe(styled_df_def, use_container_width=True)
-            
+            st.dataframe(style_matrix(df_def), use_container_width=True)
 
             st.markdown("Team Offense Matrix")
             df_off = build_team_offense_matrix(st.session_state.team_data)
-            styled_df_off = style_matrix(df_off)
-            st.dataframe(styled_df_off, use_container_width=True)
+            st.dataframe(style_matrix(df_off), use_container_width=True)
+
     
 
 # Inject floating buttons via HTML/CSS
